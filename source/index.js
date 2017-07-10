@@ -56,7 +56,3 @@ export const geocode = (input, cb = ()=>{}) => {
   }
 }
 
-geocode('1060 West Addison Street', console.log)
-
-
-

@@ -2,9 +2,11 @@
   "name": "uteel-geocode",
   "version": "1.0.0",
   "description": "geocoding utility",
-  "main": "index.js",
+  "main": "./dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "",
+    "build": "babel source -d dist",
+    "prepublish": "npm run build"
   },
   "author": "Louis Grellet <as1cron@gmail.com>",
   "license": "ISC",
