@@ -14,27 +14,23 @@ mapping['country'] = [
   item => (['country', item.long_name]),
   item => (['country_code', item.short_name]),
 ]
-mapping['street_address'] = [
-  item => (['address', item.formatted_address]),
-  item => (['place_id', item.place_id]),
-  item => (['latlng', item.geometry && [item.geometry.location.lat, item.geometry.location.lng].join(',') ]),
-]
 
 
 const reducer = (acc, item) => {
-  // if one of object types match our mapping
+  if(item.geometry) acc['latlng'] = [item.geometry.location.lat, item.geometry.location.lng].join(',')
+  if(item.place_id) acc['place_id'] = item.place_id
+  if(item.formatted_address) acc['address'] = item.formatted_address
+
+  // if one of object type match our mapping
   // then add corresponding key:value to returned accessor
-  item.types.forEach(type => {
-    if(Object.keys(mapping).includes(type)){
-      const field = mapping[type]
-      const modifiers = typeof field == 'function' ? [field] : field
-      modifiers.forEach(fn => {
-        const key = fn(item)[0]
-        const value = fn(item)[1]
-        if(value) acc[key] = value
-      })
-    }
+  const field = mapping[item.types[0]]
+  const modifiers = typeof field == 'function' ? [field] : field || []
+  modifiers.forEach(fn => {
+    const key = fn(item)[0]
+    const value = fn(item)[1]
+    if(value) acc[key] = value
   })
+
   return acc
 }
 
