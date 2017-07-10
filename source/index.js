@@ -34,24 +34,29 @@ const reducer = (acc, item) => {
   return acc
 }
 
-const parse = googleData => ([
-    googleData.results[0]
-  , ...googleData.results[0].address_components
-])
+const parse = googleData => { 
+  try { return [
+      googleData.results[0]
+    , ...googleData.results[0].address_components
+  ] }catch(e) { return [] }
+}
 
 
 // convert input to geocoded object
-export const geocode = (input, cb = ()=>{}) => {
-  try{
-    fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${input}`)
-      .then(res => res.json())
-      .then(data => parse(data).reduce(reducer, {}))
-      .then(data => cb(null, data))
-  }catch(e) {
-    e && console.log(e)
-    cb(true)
-  }
-}
+export const geocode = input => (
+  new Promise(resolve => {
+    try{
+      fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${input}`)
+        .then(res => res.json())
+        .then(data => parse(data).reduce(reducer, {}))
+        .then(data => {
+          resolve(Object.keys(data).length ? data : false)
+        })
+    }catch(e) {
+      resolve(false)
+    }
+  })
+)
 
 // convert input to "lat,lng"
 export const LLToString = input => ((input.lat && [input.lat, input.lng].join(',')) || input)

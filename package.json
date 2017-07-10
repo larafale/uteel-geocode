@@ -1,6 +1,6 @@
 {
   "name": "uteel-geocode",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "description": "geocoding utility",
   "main": "./dist/index.js",
   "scripts": {
@@ -12,5 +12,8 @@
   "license": "ISC",
   "dependencies": {
     "isomorphic-fetch": "^2.2.1"
+  },
+  "devDependencies": {
+    "babel-plugin-transform-async-to-generator": "^6.24.1"
   }
 }
