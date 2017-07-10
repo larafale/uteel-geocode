@@ -40,6 +40,7 @@ const parse = googleData => ([
 ])
 
 
+// convert input to geocoded object
 export const geocode = (input, cb = ()=>{}) => {
   try{
     fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${input}`)
@@ -50,5 +51,25 @@ export const geocode = (input, cb = ()=>{}) => {
     e && console.log(e)
     cb(true)
   }
+}
+
+// convert input to "lat,lng"
+export const LLToString = input => ((input.lat && [input.lat, input.lng].join(',')) || input)
+
+// convert input to { lat: '', lng: '' }
+export const LLToObject = input => ({ 
+  lat: input.lat || input.replace(/\s/g, '').split(',')[0],
+  lng: input.lng || input.replace(/\s/g, '').split(',')[1]
+})
+
+// check if marker is within distance (kilometers) of a center point
+export const inRadius = (center, marker, km = 10) => {
+  center = LLToObject(center)
+  marker = LLToObject(marker)
+  var ky = 40000 / 360
+  var kx = Math.cos(Math.PI * center.lat / 180.0) * ky
+  var dx = Math.abs(center.lng - marker.lng) * kx
+  var dy = Math.abs(center.lat - marker.lat) * ky
+  return Math.sqrt(dx * dx + dy * dy) <= km
 }
 
