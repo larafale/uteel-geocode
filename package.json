@@ -1,10 +1,10 @@
 {
   "name": "uteel-geocode",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "geocoding utility",
   "main": "./dist/index.js",
   "scripts": {
-    "test": "",
+    "test": "babel-node test/index",
     "build": "babel source -d dist",
     "prepublish": "npm run build"
   },
