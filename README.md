@@ -10,10 +10,10 @@ npm i uteel-geocode
 import { geocode } from 'uteel-geocode'
 
 
-// `address` input
+// with "address"
 geocode('1060 West Addison Street', (err, location) => {})
 
-// `latlng` input
+// with "latlng"
 geocode('43.5262719, 5.4484675', (err, location) => {})
 
 
