@@ -10,7 +10,7 @@ const test = async () => {
   console.log(inRadius(center, marker, 2.2))
 }
 
-// test()
+test()
 
 
 

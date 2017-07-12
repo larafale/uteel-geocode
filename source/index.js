@@ -63,8 +63,8 @@ export const LLToString = input => ((input.lat && [input.lat, input.lng].join(',
 
 // convert input to { lat: '', lng: '' }
 export const LLToObject = input => ({ 
-  lat: parseInt(input.lat || input.replace(/\s/g, '').split(',')[0], 10),
-  lng: parseInt(input.lng || input.replace(/\s/g, '').split(',')[1], 10)
+  lat: parseFloat(input.lat || input.replace(/\s/g, '').split(',')[0], 10),
+  lng: parseFloat(input.lng || input.replace(/\s/g, '').split(',')[1], 10)
 })
 
 // check if marker is within distance (kilometers) of a center point
