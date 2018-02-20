@@ -44,16 +44,18 @@ const parse = googleData => {
 
 // convert input to geocoded object
 export const geocode = input => (
-  new Promise(resolve => {
+  new Promise((resolve, reject) => {
     try{
       fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${input}`)
         .then(res => res.json())
         .then(data => parse(data).reduce(reducer, {}))
         .then(data => {
-          resolve(Object.keys(data).length ? data : false)
+          Object.keys(data).length
+            ? resolve(data)
+            : reject('no data found')
         })
     }catch(e) {
-      resolve(false)
+      reject(false)
     }
   })
 )
