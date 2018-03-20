@@ -43,10 +43,13 @@ const parse = googleData => {
 
 
 // convert input to geocoded object
-export const geocode = input => (
+export const geocode = (input, apikey) => (
   new Promise((resolve, reject) => {
     try{
-      fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${input}`)
+      const query = [`address=${input}`]
+      apikey && query.push(`key=${apikey}`)
+
+      fetch(`https://maps.googleapis.com/maps/api/geocode/json?${query.join('&')}`)
         .then(res => res.json())
         .then(data => parse(data).reduce(reducer, {}))
         .then(data => {
